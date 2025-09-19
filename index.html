@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coran - Application Complète</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header id="header">
+        <div class="header-content">
+            <button id="menu-toggle" class="icon-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <h1 id="current-title">Coran</h1>
+            <button id="search-toggle" class="icon-btn">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+        
+        <!-- Barre de recherche -->
+        <div id="search-bar" class="hidden">
+            <input type="text" id="search-input" placeholder="Rechercher un mot, une sourate, un verset...">
+            <button id="search-close" class="icon-btn">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Navigation latérale -->
+    <aside id="sidebar" class="hidden">
+        <div class="sidebar-header">
+            <h2>Navigation</h2>
+            <button id="sidebar-close" class="icon-btn">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="sidebar-content">
+            <div class="sidebar-section">
+                <h3>Sourates</h3>
+                <div id="sourates-list" class="sourates-container"></div>
+            </div>
+            <div class="sidebar-section">
+                <h3>Juz</h3>
+                <div class="juz-container">
+                    <!-- Les juz seront générés dynamiquement -->
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Contenu principal -->
+    <main id="main-content">
+        <!-- Écran d'accueil -->
+        <section id="home-screen" class="screen active">
+            <div class="welcome-card">
+                <div class="welcome-header">
+                    <i class="fas fa-quran"></i>
+                    <h2>Bismillah ar-Rahman ar-Rahim</h2>
+                </div>
+                <p>Commencez votre lecture du Saint Coran</p>
+                <div class="quick-stats">
+                    <div class="stat">
+                        <span class="number">114</span>
+                        <span class="label">Sourates</span>
+                    </div>
+                    <div class="stat">
+                        <span class="number">30</span>
+                        <span class="label">Juz</span>
+                    </div>
+                    <div class="stat">
+                        <span class="number">6236</span>
+                        <span class="label">Versets</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="recent-section">
+                <h3>Continuer votre lecture</h3>
+                <div id="recent-reading" class="recent-card">
+                    <p>Aucune lecture récente</p>
+                </div>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card" id="goto-feature">
+                    <i class="fas fa-book-open"></i>
+                    <span>Navigation</span>
+                </div>
+                <div class="feature-card" id="bookmarks-feature">
+                    <i class="fas fa-bookmark"></i>
+                    <span>Favoris</span>
+                </div>
+                <div class="feature-card" id="settings-feature">
+                    <i class="fas fa-cog"></i>
+                    <span>Paramètres</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Écran de lecture -->
+        <section id="reading-screen" class="screen">
+            <div class="sourate-header">
+                <h2 id="sourate-name"></h2>
+                <div class="sourate-info">
+                    <span id="sourate-revelation"></span>
+                    <span>•</span>
+                    <span id="verses-count"></span>
+                    <span>versets</span>
+                </div>
+            </div>
+
+            <div class="reading-options">
+                <button id="toggle-arabic" class="option-btn active">Arabe</button>
+                <button id="toggle-translation" class="option-btn active">Français</button>
+                <button id="auto-scroll" class="option-btn">Défilement auto</button>
+            </div>
+
+            <div id="verses-container" class="verses-container"></div>
+
+            <div class="reading-controls">
+                <button id="prev-sourate" class="control-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    Précédent
+                </button>
+                <button id="next-sourate" class="control-btn">
+                    Suivant
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- Écran des favoris -->
+        <section id="bookmarks-screen" class="screen">
+            <div class="screen-header">
+                <h2>Vos favoris</h2>
+            </div>
+            <div id="bookmarks-container" class="bookmarks-container">
+                <p class="empty-state">Aucun favori pour le moment</p>
+            </div>
+        </section>
+
+        <!-- Écran des paramètres -->
+        <section id="settings-screen" class="screen">
+            <div class="screen-header">
+                <h2>Paramètres</h2>
+            </div>
+            
+            <div class="settings-section">
+                <h3>Apparence</h3>
+                
+                <div class="setting-item">
+                    <label for="theme-select">Thème</label>
+                    <select id="theme-select">
+                        <option value="light">Clair</option>
+                        <option value="dark">Sombre</option>
+                        <option value="sepia">Sépia</option>
+                    </select>
+                </div>
+                
+                <div class="setting-item">
+                    <label for="font-family">Police</label>
+                    <select id="font-family">
+                        <option value="system-ui">Par défaut</option>
+                        <option value="'Scheherazade New', serif">Scheherazade</option>
+                        <option value="'Amiri', serif">Amiri</option>
+                        <option value="'Lateef', serif">Lateef</option>
+                        <option value="'Roboto', sans-serif">Roboto</option>
+                    </select>
+                </div>
+                
+                <div class="setting-item">
+                    <label for="font-size">Taille du texte</label>
+                    <input type="range" id="font-size" min="14" max="30" value="18">
+                    <span id="font-size-value">18px</span>
+                </div>
+                
+                <div class="setting-item">
+                    <label for="line-height">Interligne</label>
+                    <input type="range" id="line-height" min="1.5" max="3" step="0.1" value="2">
+                    <span id="line-height-value">2</span>
+                </div>
+            </div>
+            
+            <div class="settings-section">
+                <h3>Lecture</h3>
+                
+                <div class="setting-item">
+                    <label for="scroll-speed">Vitesse défilement auto</label>
+                    <input type="range" id="scroll-speed" min="1" max="10" value="5">
+                    <span id="scroll-speed-value">5</span>
+                </div>
+                
+                <div class="setting-item">
+                    <label>
+                        <input type="checkbox" id="hide-nav-reading">
+                        Cacher la navigation en lecture
+                    </label>
+                </div>
+            </div>
+            
+            <div class="settings-actions">
+                <button id="reset-settings" class="btn-secondary">Réinitialiser</button>
+            </div>
+        </section>
+
+        <!-- Écran de recherche -->
+        <section id="search-screen" class="screen">
+            <div class="screen-header">
+                <h2>Résultats de recherche</h2>
+            </div>
+            <div id="search-results" class="search-results">
+                <p class="empty-state">Effectuez une recherche pour voir les résultats</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Navigation inférieure -->
+    <nav id="bottom-nav">
+        <button class="nav-btn active" data-target="home-screen">
+            <i class="fas fa-home"></i>
+            <span>Accueil</span>
+        </button>
+        <button class="nav-btn" data-target="bookmarks-screen">
+            <i class="fas fa-bookmark"></i>
+            <span>Favoris</span>
+        </button>
+        <button class="nav-btn" id="reading-nav-btn" data-target="reading-screen">
+            <i class="fas fa-book-open"></i>
+            <span>Lecture</span>
+        </button>
+        <button class="nav-btn" data-target="settings-screen">
+            <i class="fas fa-cog"></i>
+            <span>Paramètres</span>
+        </button>
+    </nav>
+
+    <!-- Overlay pour sidebar -->
+    <div id="overlay" class="hidden"></div>
+
+    <!-- Modal de contrôle du défilement automatique -->
+    <div id="auto-scroll-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Contrôle du défilement</h3>
+                <button id="close-scroll-modal" class="icon-btn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="scroll-controls">
+                    <button id="pause-scroll" class="control-btn">
+                        <i class="fas fa-pause"></i>
+                        Pause
+                    </button>
+                    <button id="resume-scroll" class="control-btn">
+                        <i class="fas fa-play"></i>
+                        Reprendre
+                    </button>
+                    <button id="stop-scroll" class="control-btn">
+                        <i class="fas fa-stop"></i>
+                        Arrêter
+                    </button>
+                </div>
+                <div class="speed-control">
+                    <label for="modal-scroll-speed">Vitesse:</label>
+                    <input type="range" id="modal-scroll-speed" min="1" max="10" value="5">
+                    <span id="modal-speed-value">5</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
